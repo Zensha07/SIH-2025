@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Test</title>
+</head>
+<body>
+    <h1>Server Test</h1>
+    <button onclick="testServer()">Test Server Connection</button>
+    <div id="result"></div>
+
+    <script>
+        async function testServer() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/api/auth/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = '<p style="color: green;">✅ Server is running and responding!</p>';
+                } else {
+                    resultDiv.innerHTML = `<p style="color: orange;">⚠️ Server is running but returned status: ${response.status}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">❌ Server connection failed: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
